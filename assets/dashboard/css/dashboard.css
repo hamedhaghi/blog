@@ -1,0 +1,523 @@
+@font-face {
+    font-family: 'Yekan';
+    src: url('../fonts/Yekan.eot?-wwn5ej');
+    src: url('../fonts/Yekan.eot?#iefix-wwn5ej') format('embedded-opentype'),
+    url('../fonts/Yekan.woff?-wwn5ej') format('woff'),
+    url('../fonts/Yekan.ttf?-wwn5ej') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'AlegreyaSans-Regular';
+    src: url("../fonts/alegreya-sans/AlegreyaSans-Regular.otf") format("opentype");
+}
+
+body {
+
+    background: #e3e3e3;
+    font-family: 'Yekan', 'AlegreyaSans-Regular';
+    font-size: 1.5em;
+
+}
+
+/* set margin rules for 5px */
+
+/* margin top*/
+.mt {
+
+    margin-top: 5px;
+}
+
+/* margin right*/
+.mr {
+
+    margin-right: 5px;
+}
+
+/* margin bottom*/
+.mb {
+
+    margin-bottom: 5px;
+}
+
+/* margin left*/
+.ml {
+
+    margin-left: 5px;
+}
+
+.trash {
+
+    color: #ff5959;
+}
+
+.trash:hover {
+
+    color: red;
+}
+
+.ltr {
+
+    text-align: left;
+    direction: ltr;
+}
+
+.rtl {
+    text-align: right;
+    direction: rtl;
+}
+
+.en {
+
+    font-family: 'AlegreyaSans-Regular', Tahoma;
+}
+
+/* -------- RTL Awesome Checkbox Radio Modification --------- */
+.checkbox.rtl {
+    padding-left: 0px;
+    padding-right: 20px;
+}
+
+.checkbox.rtl label {
+    padding-left: 0px;
+    padding-right: 5px;
+}
+
+.checkbox.rtl label::before {
+    left: auto;
+    right: 2px;
+    margin-left: 0;
+    /* -- my change --*/
+    margin-right: -22px;
+    /* -- my change --*/
+}
+
+.checkbox.rtl label::after {
+    left: auto;
+    right: 0;
+    margin-left: 0px;
+    margin-right: -20px;
+    padding-left: 0px;
+    padding-right: 3px;
+}
+
+.checkbox.rtl input[type="checkbox"] {
+    margin-left: 0px;
+}
+
+.radio.rtl {
+    padding-left: 0px;
+    padding-right: 20px;
+
+}
+
+.radio.rtl label {
+    padding-left: 0px;
+    padding-right: 5px;
+}
+
+.radio.rtl label::before {
+    left: auto;
+    right: -3px;
+    margin-left: 0;
+    margin-right: -20px;
+
+}
+
+.radio.rtl label::after {
+    left: auto;
+    right: 0;
+    margin-left: 0px;
+    margin-right: -20px;
+    padding-left: 0px;
+    padding-right: 3px;
+
+}
+
+.radio.rtl input[type="radio"] {
+    margin-left: 0px;
+
+}
+
+/* -------- RTL Awesome Checkbox & Radio Modification --------- */
+
+.table-img {
+
+    height: 30px;
+    width: 30px;
+}
+
+/* set padding rules for 5px */
+
+/* padding top*/
+.pt {
+
+    padding-top: 5px;
+}
+
+/* padding right*/
+.pr {
+
+    padding-right: 5px;
+}
+
+/* padding bottom*/
+.pb {
+
+    padding-bottom: 5px;
+}
+
+/* padding left*/
+.pl {
+
+    padding-left: 5px;
+}
+
+.sidebar {
+
+    background: #0e1219;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    padding: 0;
+    box-shadow: 0 0 8px #000;
+
+}
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        top: 0 !important;
+        margin: 0 auto;
+        clear: both;
+        position: relative;
+
+    }
+}
+
+.sidebar-icon {
+    margin: 0 0 0 20px;
+}
+
+.sidebar ul {
+    margin: 0 auto;
+    padding: 0;
+}
+
+.sidebar ul li {
+    list-style: none;
+    margin: 0 auto;
+    width: 100%;
+    display: block;
+    color: #ddd;
+    border-top: dotted 1px rgba(221, 221, 221, 0.21);
+
+}
+
+.sidebar ul li:last-child {
+    border-bottom: dotted 1px rgba(221, 221, 221, 0.21);
+}
+
+.sidebar ul li:hover {
+    background: #22293a;
+    transition: all 0.3s ease
+
+}
+
+.sidebar ul li a {
+    color: #ddd;
+    text-decoration: none;
+    width: 100%;
+    padding: 10px;
+    display: block;
+    margin: 0 auto;
+}
+
+.focus {
+    background: #669752;
+    color: #222222 !important;
+}
+
+.user-image {
+    height: 100px;
+    width: 100px;
+    position: relative;
+    top: 10px;
+
+}
+
+.user-image:hover {
+    opacity: .5;
+    transition: all 0.2s ease
+}
+
+.exit, .exit:link {
+    color: #c6721b;
+    text-decoration: none;
+}
+
+.exit:hover {
+    color: rgba(208, 26, 63, 0.83);
+
+}
+
+.username {
+    color: #ddddbb;
+    font-size: 1.2em;
+}
+
+.menu {
+    position: relative;
+}
+
+.menu ul {
+    display: none;
+    position: absolute;
+    left: -200px;
+    top: 0;
+    background: #35405c;
+    width: 200px;
+
+}
+
+.sidebar ul li:hover > ul {
+    display: block;
+    transition: .9s all;
+
+}
+
+.menu ul li:hover {
+    background: rgba(98, 115, 165, 0.8);
+    transition: all 0.3s ease
+}
+
+.caret-left-red {
+    color: rgba(242, 16, 50, 0.97);
+}
+
+.target {
+    position: relative;
+
+}
+
+.myPen {
+    color: #fd1d3f;
+}
+
+.target .myPen {
+    visibility: hidden;
+    position: absolute;
+    bottom: 55px;
+    right: -7px;
+}
+
+.target:hover .myPen {
+    visibility: visible;
+
+}
+
+.total-report {
+    position: relative;
+    border: solid 1px #eee;
+    border-radius: 5px;
+    box-shadow: 0 0 7px #eee;
+    padding: 10px;
+
+}
+
+.total-report-span {
+    font-size: 1.5em;
+}
+
+.total-report-i {
+    color: #404040;
+}
+
+/* table vertical align to middle*/
+.table-baseline tbody tr td {
+
+    vertical-align: middle;
+}
+
+.user-order-image {
+    height: 100px;
+    width: 100px;
+}
+
+.count-badge {
+    background: #fff;
+    color: red;
+    margin: 10px 0 0 5px;
+    font-size: .9em;
+}
+
+.main a.folder {
+    text-decoration: none;
+    color: #ffc04d;
+}
+
+.main a.folder:hover {
+    color: #a16e29;
+    text-decoration: none;
+}
+
+.main a.file {
+    text-decoration: none;
+    color: #3e96ec;
+}
+
+.main a.file:hover {
+    color: #6aaed8;
+    text-decoration: none;
+}
+
+.overText {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 20px 0;
+    direction: ltr;
+    text-align: center;
+}
+
+.confirm-js-title {
+    direction: ltr;
+    text-align: left;
+}
+
+.file-img {
+    height: 136px;
+    object-fit: cover;
+    margin-bottom: 5px;
+
+}
+
+
+
+.breadcrumb-arrow {
+    height: 36px;
+    padding: 0;
+    line-height: 36px;
+    list-style: none;
+    background-color: #eee;
+    border: solid 1px #ccc;
+}
+
+.breadcrumb-arrow li:first-child a {
+    border-radius: 4px 0 0 4px;
+    -webkit-border-radius: 4px 0 0 4px;
+    -moz-border-radius: 4px 0 0 4px;
+}
+
+.breadcrumb-arrow li, .breadcrumb-arrow li a, .breadcrumb-arrow li span {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.breadcrumb-arrow li:not(:first-child) {
+    margin-left: -5px;
+}
+
+.breadcrumb-arrow li + li:before {
+    padding: 0;
+    content: "";
+}
+
+.breadcrumb-arrow li span {
+    padding: 0 10px;
+}
+
+.breadcrumb-arrow li a, .breadcrumb-arrow li:not(:first-child) span {
+    height: 36px;
+    padding: 0 10px 0 25px;
+    line-height: 36px;
+}
+
+.breadcrumb-arrow li:first-child a {
+    padding: 0 10px;
+}
+
+.breadcrumb-arrow li a {
+    position: relative;
+    color: #fff;
+    text-decoration: none;
+    background-color: #3bafda;
+    border: 1px solid #3bafda;
+}
+
+.breadcrumb-arrow li:first-child a {
+    padding-left: 10px;
+}
+
+.breadcrumb-arrow li a:after, .breadcrumb-arrow li a:before {
+    position: absolute;
+    top: -1px;
+    width: 0;
+    height: 0;
+    content: '';
+    border-top: 18px solid transparent;
+    border-bottom: 18px solid transparent;
+}
+
+.breadcrumb-arrow li a:before {
+    right: -10px;
+    z-index: 3;
+    border-left-color: #3bafda;
+    border-left-style: solid;
+    border-left-width: 11px
+}
+
+.breadcrumb-arrow li a:after {
+    right: -11px;
+    z-index: 2;
+    border-left: 11px solid #2494be;
+}
+
+.breadcrumb-arrow li a:focus, .breadcrumb-arrow li a:hover {
+    background-color: #4fc1e9;
+    border: 1px solid #4fc1e9;
+}
+
+.breadcrumb-arrow li a:focus:before, .breadcrumb-arrow li a:hover:before {
+    border-left-color: #4fc1e9;
+}
+
+.breadcrumb-arrow li a:active {
+    background-color: #2494be;
+    border: 1px solid #2494be;
+}
+
+.breadcrumb-arrow li a:active:after, .breadcrumb-arrow li a:active:before {
+    border-left-color: #2494be;
+}
+
+.breadcrumb-arrow li span {
+    color: #434a54;
+}
+
+.drag-item.ui-draggable-dragging {
+    background: rgba(244, 244, 244, 0.29);
+
+}
+
+.well span.selector {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    color: #bdbdbd;
+    cursor: pointer;
+    z-index: 9999;
+    font-size: 19px;
+
+}
+
+.well span.selector[data-check='true'] {
+    color: #6aaed8;
+}
+
+.well.drag-item {
+    cursor: move;
+}
+
