@@ -6,7 +6,8 @@ class Auth
     protected $CI;
     public $_table = null;
     public $max_login_attempts = 5;
-
+    public $permissions_table = 'permissions';
+    public $pivot_admins_permissions_table = 'admins_permissions';
 
     public function __construct($entity = null)
     {
@@ -34,8 +35,10 @@ class Auth
     {
         $this->CI->db->select('*');
         $this->CI->db->from($this->_table);
+        $this->CI->db->where('username', $identity);
+        $this->CI->db->or_where('email', $identity);
+        $this->CI->db->or_where('mobile', $identity);
         $this->CI->db->limit(1);
-        $this->CI->db->where("(username='{$identity}' OR email='{$identity}' OR mobile='{$identity}')");
         $result = $this->CI->db->get()->result();
         if (!empty($result)) {
             if ((bool)$result[0]->active != true) {
@@ -86,7 +89,7 @@ class Auth
         $this->CI->session->set_userdata($this->_table . '_logged_in', $data);
         if ($remember) {
             $data = $this->CI->encrypt->encode(json_encode($data));
-            set_cookie($this->_table . '_logged_in', $data, strtotime('+1 days'));
+            set_cookie($this->_table . '_logged_in', $data, strtotime('+3 days'));
         }
     }
 
@@ -103,7 +106,7 @@ class Auth
         $this->CI->db->select('login_attempts');
         $this->CI->db->from($this->_table);
         $this->CI->db->limit(1);
-        $this->CI->db->where("id={$user_id}");
+        $this->CI->db->where("id", $user_id);
         $result = $this->CI->db->get()->result();
         if (!empty($result)) {
             if ($this->max_login_attempts < $result[0]->login_attempts) {
@@ -158,7 +161,7 @@ class Auth
         $this->CI->db->select('status');
         $this->CI->db->from($this->_table);
         $this->CI->db->limit(1);
-        $this->CI->db->where("id={$user_id}");
+        $this->CI->db->where("id", $user_id);
         $result = $this->CI->db->get()->result();
         if (!empty($result)) {
             return $result[0]->status;
@@ -180,7 +183,7 @@ class Auth
         $this->CI->db->select('type');
         $this->CI->db->from($this->_table);
         $this->CI->db->limit(1);
-        $this->CI->db->where("id={$user_id}");
+        $this->CI->db->where("id", $user_id);
         $result = $this->CI->db->get()->result();
         if (!empty($result)) {
             return $result[0]->type;
@@ -220,7 +223,7 @@ class Auth
         $this->CI->db->select('*');
         $this->CI->db->from($this->_table);
         $this->CI->db->limit(1);
-        $this->CI->db->where("id={$user_id}");
+        $this->CI->db->where("id", $user_id);
         $result = $this->CI->db->get()->result();
         if (!empty($result)) {
             return $result[0];
@@ -321,7 +324,7 @@ class Auth
                 $this->CI->db->select($key);
                 $this->CI->db->from($this->_table);
                 $this->CI->db->limit(1);
-                $this->CI->db->where("{$key}='{$value}'");
+                $this->CI->db->where("{$key}", "{$value}");
                 $count = $this->CI->db->count_all_results();
                 if ($count > 0) {
                     switch ($key) {
@@ -355,7 +358,7 @@ class Auth
         $this->CI->db->select('username');
         $this->CI->db->from($this->_table);
         $this->CI->db->limit(1);
-        $this->CI->db->where("username='{$username}'");
+        $this->CI->db->where("username", $username);
         $count = $this->CI->db->count_all_results();
         if ($count > 0) {
             return true;
@@ -375,7 +378,7 @@ class Auth
         $this->CI->db->select('email');
         $this->CI->db->from($this->_table);
         $this->CI->db->limit(1);
-        $this->CI->db->where("email='{$email}'");
+        $this->CI->db->where("email", $email);
         $count = $this->CI->db->count_all_results();
         if ($count > 0) {
             return true;
@@ -395,7 +398,7 @@ class Auth
         $this->CI->db->select('mobile');
         $this->CI->db->from($this->_table);
         $this->CI->db->limit(1);
-        $this->CI->db->where("mobile='{$mobile}'");
+        $this->CI->db->where("mobile", $mobile);
         $count = $this->CI->db->count_all_results();
         if ($count > 0) {
             return true;
@@ -464,7 +467,7 @@ class Auth
      */
     public function sign_out()
     {
-        $this->CI->session->sess_destroy();
+        $this->CI->session->unset_userdata($this->_table . '_logged_in');
         delete_cookie($this->_table . '_logged_in');
     }
 
@@ -577,6 +580,107 @@ class Auth
         }
         return false;
 
+    }
+
+    /**
+     * Get All Permissions Or One
+     * @param null|string $name
+     * @return null|object
+     */
+    public function get_permissions($name = null)
+    {
+        $this->CI->db->select('*');
+        $this->CI->db->from($this->permissions_table);
+        $result = null;
+        if (!empty($name)) {
+            $this->CI->db->where('name', $name);
+            $this->CI->db->limit(1);
+            $result = $this->CI->db->get()->result();
+            if (!empty($result)) {
+                $result = $result[0];
+            }
+        } else {
+            $this->CI->db->order_by("position", "asc");
+            $result = $this->CI->db->get()->result();
+        }
+        return $result;
+    }
+
+    /**
+     * Create Permission
+     * @param array $data
+     * @return bool|object
+     */
+    public function create_permission($data)
+    {
+        $this->CI->db->insert($this->permissions_table, $data);
+        return $this->CI->db->insert_id();
+    }
+
+    /**
+     * Get Admin Permissions
+     * @param int $admin_id
+     * @return null|object
+     */
+    public function get_admin_permissions($admin_id)
+    {
+        $this->CI->db->select('*');
+        $this->CI->db->from($this->pivot_admins_permissions_table);
+        $this->CI->db->join('permissions', 'admins_permissions.permission_id = permissions.id');
+        $this->CI->db->where('admins_permissions.admin_id', $admin_id);
+        $result = $this->CI->db->get()->result();
+        return $result;
+    }
+
+
+    /**
+     * Check Admin Has Permission
+     * @param int $admin_id
+     * @param string $permission
+     * @return boolean
+     */
+    public function admin_has_permission($admin_id, $permission)
+    {
+        $this->CI->db->select('*');
+        $this->CI->db->from($this->pivot_admins_permissions_table);
+        $this->CI->db->join('permissions', 'admins_permissions.permission_id = permissions.id');
+        $this->CI->db->where('permissions.name', $permission);
+        $this->CI->db->where('admins_permissions.admin_id', $admin_id);
+        $this->CI->db->limit(1);
+        $result = $this->CI->db->get()->result();
+        if (!empty($result)) {
+            return true;
+        }
+        return false;
+
+    }
+
+
+    /**
+     * Remove Admin Permission
+     * @param int $admin_id
+     * @param int $permission_id
+     * @return boolean
+     */
+    public function remove_admin_permission($admin_id, $permission_id = null)
+    {
+        $this->CI->db->where('admin_id', $admin_id);
+        if (!empty($permission_id)) {
+            $this->CI->db->where('permission_id', $permission_id);
+        }
+        $result = $this->CI->db->delete($this->pivot_admins_permissions_table);
+        return $result;
+    }
+
+    /**
+     * Set Admin Permission
+     * @param array $data
+     * @return boolean
+     */
+    public function set_admin_permission($data)
+    {
+        $this->CI->db->insert($this->pivot_admins_permissions_table, $data);
+        return $this->CI->db->insert_id();
     }
 
 }
